@@ -1,22 +1,30 @@
-import { Text } from "@chakra-ui/react"
-import { Link } from "react-router-dom"
+import { useContext } from "react";
+import { Box, Center, Text } from "@chakra-ui/react";
+import { AppContext } from "../components/AppContext";
 
-const ContaInfo = () => { 
-    return (
-        <>
-            <Text fontSize='3xl' fontWeight='bold'>
-                Informações da conta
-            </Text>
-            <Link to='/conta/1'>
-                <Text fontSize='xl'>
-                    Conta
-                </Text>
-            </Link>
-            <a href='/conta/1'>
-                Link com tag a
-            </a>
-        </>
-    )
-}
+const ContaInfo = () => {
+  const { user } = useContext(AppContext);
 
-export default ContaInfo
+  return (
+    <>
+      <Center>
+        <Text fontSize="3xl" fontWeight="bold" color="white" marginTop="10px">
+          Informações da conta
+        </Text>
+      </Center>
+      <Box backgroundColor="gray.100" padding="20px" margin="35px" borderRadius="15px">
+        <Text fontSize="xl" marginBottom="10px">
+          <b>ID:</b> {user?.id}
+        </Text>
+        <Text fontSize="xl" marginBottom="10px">
+          <b>Nome:</b> {user?.name}
+        </Text>
+        <Text fontSize="xl" marginBottom="10px">
+          <b>Email:</b> {user?.email}
+        </Text>
+      </Box>
+    </>
+  );
+};
+
+export default ContaInfo;

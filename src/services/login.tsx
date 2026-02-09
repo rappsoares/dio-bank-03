@@ -1,11 +1,25 @@
-import { api } from "../api"
+import { api } from "../api";
 
-export const login = async (email: string): Promise<boolean> => {
-    const data: any = await api
+export type LoginResponse =
+  | { sucess: true; user: { id: string; name: string; email: string } }
+  | { sucess: false; error: "email" | "password" | "both" };
 
-    if(email !== data.email) {
-        return false
-    }
+export const login = async (email: string, password: string): Promise<LoginResponse> => {
+  const data: any = await api;
 
-    return true
-}
+  const isEmailValid = email === data.email;
+  const isPasswordValid = password === data.password;
+
+  if (!isEmailValid && isPasswordValid) return { sucess: false, error: "email" };
+  if (isEmailValid && !isPasswordValid) return { sucess: false, error: "password" };
+  if (!isEmailValid && !isPasswordValid) return { sucess: false, error: "both" };
+
+  return {
+    sucess: true,
+    user: {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+    },
+  };
+};
